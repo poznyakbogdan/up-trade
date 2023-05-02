@@ -1,0 +1,11 @@
+@page
+@using WebUI.Pages.Shared
+@model WebUI.Pages.Balances
+
+@{
+    ViewData["Title"] = "Wallet balances";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<component type="typeof(BalancesTable)" param-Data="@Model.Models" render-mode="ServerPrerendered" />
