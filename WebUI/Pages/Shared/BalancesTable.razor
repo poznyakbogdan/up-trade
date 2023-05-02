@@ -1,0 +1,47 @@
+<h3>Balances</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Address</th>
+          <th scope="col" @onclick="OnClick">Balance</th>
+        </tr>
+      </thead>
+    <tbody>
+    @foreach (var item in Data)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Address</td>
+            <td>@item.Balance</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@code {
+    public class BalanceModel
+    {
+        public int Id { get; set; }
+        public string Address { get; set; }
+        public decimal Balance { get; set; }
+    }
+
+    private List<BalanceModel> _data;
+    private bool _sortAsc = true;
+
+    [Parameter]
+    public List<BalanceModel> Data
+    {
+        get => _sortAsc ? 
+            _data.OrderBy(x => x.Balance).ToList() : 
+            _data.OrderByDescending(x => x.Balance).ToList();
+        set => _data = value;
+    }
+
+    private void OnClick()
+    {
+        _sortAsc = !_sortAsc;
+    }
+}
