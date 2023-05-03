@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+#      - db:/var/lib/postgresql/data
+  
+  api:
+    build:
+      context: .
+      dockerfile: ./deploy/API/Dockerfile
+    environment:
+      ASPNETCORE_URLS: http://+:5058
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - "5058:5058"
+        
+  ui:
+    build:
+      context: .
+      dockerfile: ./deploy/UI/Dockerfile
+    depends_on:
+      - db
+      - api
+    links:
+      - api
+    environment:
+      ASPNETCORE_URLS: http://+:5200
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - "5200:5200"
+      
