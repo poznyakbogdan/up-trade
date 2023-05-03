@@ -5,7 +5,7 @@
         <tr>
           <th scope="col">Id</th>
           <th scope="col">Address</th>
-          <th scope="col" @onclick="Resort">Balance</th>
+          <th scope="col" @onclick="Resort" class="sorted-column">Balance<i class="fa-solid fa-sort-@SortIcon"></i></th>
         </tr>
       </thead>
     <tbody>
@@ -14,7 +14,7 @@
         <tr>
             <td>@item.Id</td>
             <td><a href="@item.ExplorerLink" target="_blank">@item.Address</a></td>
-            <td>@item.Balance</td>
+            <td>@item.BalanceString</td>
         </tr>
     }
     </tbody>
@@ -26,6 +26,7 @@
         public int Id { get; set; }
         public string Address { get; set; }
         public decimal Balance { get; set; }
+        public string BalanceString => $"{Balance} ETH";
         public string ExplorerLink => "https://sepolia.etherscan.io/address/" + Address;
     }
 
@@ -40,6 +41,7 @@
     
     private List<BalanceModel> _data;
     private bool _sortAsc;
+    private string SortIcon => _sortAsc ? "up" : "down";
 
     private void Resort()
     {
