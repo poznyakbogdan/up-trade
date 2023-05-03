@@ -10,7 +10,6 @@ services:
       - '5432:5432'
     volumes:
       - ./db:/docker-entrypoint-initdb.d
-#      - db:/var/lib/postgresql/data
   
   api:
     build:
@@ -34,6 +33,8 @@ services:
     environment:
       ASPNETCORE_URLS: http://+:5200
       ASPNETCORE_ENVIRONMENT: Development
+      BalancesApiUrl: http://api:5058
+      DbConnectionString: Host=localhost;Port=5432;Database=postgres;Uid=postgres;Password=postgres;
     ports:
       - "5200:5200"
       
