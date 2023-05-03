@@ -5,7 +5,7 @@
         <tr>
           <th scope="col">Id</th>
           <th scope="col">Address</th>
-          <th scope="col" @onclick="OnClick">Balance</th>
+          <th scope="col" @onclick="Resort">Balance</th>
         </tr>
       </thead>
     <tbody>
@@ -13,7 +13,7 @@
     {
         <tr>
             <td>@item.Id</td>
-            <td>@item.Address</td>
+            <td><a href="@item.ExplorerLink" target="_blank">@item.Address</a></td>
             <td>@item.Balance</td>
         </tr>
     }
@@ -26,10 +26,8 @@
         public int Id { get; set; }
         public string Address { get; set; }
         public decimal Balance { get; set; }
+        public string ExplorerLink => "https://sepolia.etherscan.io/address/" + Address;
     }
-
-    private List<BalanceModel> _data;
-    private bool _sortAsc = true;
 
     [Parameter]
     public List<BalanceModel> Data
@@ -39,8 +37,11 @@
             _data.OrderByDescending(x => x.Balance).ToList();
         set => _data = value;
     }
+    
+    private List<BalanceModel> _data;
+    private bool _sortAsc;
 
-    private void OnClick()
+    private void Resort()
     {
         _sortAsc = !_sortAsc;
     }

@@ -9,7 +9,7 @@ namespace WebUI.Pages;
 
 public class Balances : PageModel
 {
-    public List<BalancesTable.BalanceModel> Models { get; set; }
+    public List<BalancesTable.BalanceModel> Models { get; set; } = new List<BalancesTable.BalanceModel>();
     private readonly IDesignTimeDbContextFactory<AppDbContext> _factory;
     private readonly BalancesApi _balancesApi;
 
@@ -24,6 +24,7 @@ public class Balances : PageModel
         await using var context = _factory.CreateDbContext(new[] { "" });
         var wallets = await context.Wallets.AsNoTracking().ToListAsync();
         var balances = await _balancesApi.GetBalances(wallets.Select(x => x.Address).Distinct());
+        if (balances is null) return;
         Models = wallets.Select(x => new BalancesTable.BalanceModel
         {
             Id = x.Id,
