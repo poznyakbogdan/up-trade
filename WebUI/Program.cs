@@ -6,7 +6,7 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<IDesignTimeDbContextFactory<AppDbContext>, AppDbContextFactory>(x => 
-    ActivatorUtilities.CreateInstance<AppDbContextFactory>(x, builder.Configuration.GetConnectionString(nameof(AppDbContext))));
+    ActivatorUtilities.CreateInstance<AppDbContextFactory>(x, builder.Configuration.GetValue<string>("DbConnectionString")));
 
 builder.Services.AddRazorPages();
 
